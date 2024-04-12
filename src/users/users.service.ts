@@ -4,6 +4,7 @@ import { UserEntity } from './entities';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { encodePassword } from 'src/utils/bcrypt';
+import { LoginUserDto } from 'src/auth/dto/LoginUser.dto';
 
 @Injectable()
 export class UsersService {
@@ -23,5 +24,9 @@ export class UsersService {
     }
     const newUser = this.userRepository.create({ ...createUserDto, password });
     return this.userRepository.save(newUser);
+  }
+
+  findByEmail(email: LoginUserDto['email']) {
+    return this.userRepository.findOne({ where: { email } });
   }
 }
